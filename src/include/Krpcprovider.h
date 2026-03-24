@@ -26,7 +26,7 @@ private:
         google::protobuf::Service* service;     // 所有service的父类 Service，在这里指向一个具体的服务（类） 
         std::unordered_map<std::string, const google::protobuf::MethodDescriptor*> method_map;  //MethodDescriptor 描述函数的metadata
     };
-    muduo::net::EventLoop evet_loop;
+    muduo::net::EventLoop event_loop;
     std::unordered_map<std::string, ServiceInfo> service_map;   // 保存服务对象和Rpc方法
     
     void OnConnection(const muduo::net::TcpConnectionPtr& conn);    // muduo TcpServer回调函数

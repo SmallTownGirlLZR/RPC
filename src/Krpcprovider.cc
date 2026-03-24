@@ -71,6 +71,30 @@ void KrpcProvider::Run(){
     );
 
     server -> setThreadNum(4);
+
+    // 将当前RPC节点上要发布的服务全部注册到ZooKeeper上，让RPC客户端可以在ZooKeeper上发现服务
+    ZkClient zkclient;
+    zkclient.Start();  // 连接ZooKeeper服务器
+    // service_name为永久节点，method_name为临时节点
+    for (auto &sp : service_map) {
+        // service_name 在ZooKeeper中的目录是"/"+service_name
+        std::string service_path = "/" + sp.first;
+        zkclient.Create(service_path.c_str(), nullptr, 0);  // 创建服务节点
+        for (auto &mp : sp.second.method_map) {
+            std::string method_path = service_path + "/" + mp.first;
+            char method_path_data[128] = {0};
+            sprintf(method_path_data, "%s:%d", ip.c_str(), port);  // 将IP和端口信息存入节点数据
+            // ZOO_EPHEMERAL表示这个节点是临时节点，在客户端断开连接后，ZooKeeper会自动删除这个节点
+            zkclient.Create(method_path.c_str(), method_path_data, strlen(method_path_data), ZOO_EPHEMERAL);
+        }
+    }
+
+    // RPC服务端准备启动，打印信息
+    std::cout << "RpcProvider start service at ip:" << ip << " port:" << port << std::endl;
+
+    // 启动网络服务
+    server->start();
+    event_loop.loop();  // 进入事件循环
 }
 
 // 有数据可读时
