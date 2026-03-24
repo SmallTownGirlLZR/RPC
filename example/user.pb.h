@@ -188,9 +188,9 @@ class ResultCode :
   ::std::string* release_errmsg();
   void set_allocated_errmsg(::std::string* errmsg);
 
-  // int32 errCode = 1;
+  // int32 errcode = 1;
   void clear_errcode();
-  static const int kErrCodeFieldNumber = 1;
+  static const int kErrcodeFieldNumber = 1;
   ::google::protobuf::int32 errcode() const;
   void set_errcode(::google::protobuf::int32 value);
 
@@ -803,18 +803,18 @@ class UserServiceRpc_Stub : public UserServiceRpc {
 #endif  // __GNUC__
 // ResultCode
 
-// int32 errCode = 1;
+// int32 errcode = 1;
 inline void ResultCode::clear_errcode() {
   errcode_ = 0;
 }
 inline ::google::protobuf::int32 ResultCode::errcode() const {
-  // @@protoc_insertion_point(field_get:Kuser.ResultCode.errCode)
+  // @@protoc_insertion_point(field_get:Kuser.ResultCode.errcode)
   return errcode_;
 }
 inline void ResultCode::set_errcode(::google::protobuf::int32 value) {
   
   errcode_ = value;
-  // @@protoc_insertion_point(field_set:Kuser.ResultCode.errCode)
+  // @@protoc_insertion_point(field_set:Kuser.ResultCode.errcode)
 }
 
 // bytes errmsg = 2;

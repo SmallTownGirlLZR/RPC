@@ -185,7 +185,7 @@ static ::google::protobuf::Message const * const file_default_instances[] = {
 
 const char descriptor_table_protodef_user_2eproto[] =
   "\n\nuser.proto\022\005Kuser\"-\n\nResultCode\022\017\n\007err"
-  "Code\030\001 \001(\005\022\016\n\006errmsg\030\002 \001(\014\")\n\014LoginReque"
+  "code\030\001 \001(\005\022\016\n\006errmsg\030\002 \001(\014\")\n\014LoginReque"
   "st\022\014\n\004name\030\001 \001(\014\022\013\n\003pwd\030\002 \001(\014\"C\n\rLoginRe"
   "sponse\022!\n\006result\030\001 \001(\0132\021.Kuser.ResultCod"
   "e\022\017\n\007success\030\002 \001(\010\"8\n\017RegisterRequest\022\n\n"
@@ -223,7 +223,7 @@ class ResultCode::HasBitSetters {
 };
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int ResultCode::kErrCodeFieldNumber;
+const int ResultCode::kErrcodeFieldNumber;
 const int ResultCode::kErrmsgFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -293,7 +293,7 @@ const char* ResultCode::_InternalParse(const char* begin, const char* end, void*
     ptr = ::google::protobuf::io::Parse32(ptr, &tag);
     GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
     switch (tag >> 3) {
-      // int32 errCode = 1;
+      // int32 errcode = 1;
       case 1: {
         if (static_cast<::google::protobuf::uint8>(tag) != 8) goto handle_unusual;
         msg->set_errcode(::google::protobuf::internal::ReadVarint(&ptr));
@@ -349,7 +349,7 @@ bool ResultCode::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // int32 errCode = 1;
+      // int32 errcode = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) == (8 & 0xFF)) {
 
@@ -400,7 +400,7 @@ void ResultCode::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int32 errCode = 1;
+  // int32 errcode = 1;
   if (this->errcode() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->errcode(), output);
   }
@@ -424,7 +424,7 @@ void ResultCode::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int32 errCode = 1;
+  // int32 errcode = 1;
   if (this->errcode() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->errcode(), target);
   }
@@ -464,7 +464,7 @@ size_t ResultCode::ByteSizeLong() const {
         this->errmsg());
   }
 
-  // int32 errCode = 1;
+  // int32 errcode = 1;
   if (this->errcode() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(

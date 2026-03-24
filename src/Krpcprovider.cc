@@ -50,6 +50,7 @@ void KrpcProvider::OnConnection(const muduo::net::TcpConnectionPtr& conn){
     } 
 }
 
+// 初始化TcpServer 并绑定回调方法
 void KrpcProvider::Run(){
     // 获取 IP & Port 配置
     std::string ip = KrpcApplication::GetInstance().GetConfig().Load("rpcserverip");
@@ -60,7 +61,7 @@ void KrpcProvider::Run(){
 
     // 创建TcpServer
     std::shared_ptr<muduo::net::TcpServer> server = std::make_shared<muduo::net::TcpServer>(&evet_loop, address, "KrpcProvider");
-
+ 
     // 绑定回调
     server -> setConnectionCallback(
             std::bind(&KrpcProvider::OnConnection, this, std::placeholders::_1) 
@@ -72,6 +73,7 @@ void KrpcProvider::Run(){
     server -> setThreadNum(4);
 }
 
+// 有数据可读时
 void KrpcProvider::OnMessage(const muduo::net::TcpConnectionPtr& conn, muduo::net::Buffer* buffer, muduo::Timestamp){
     std::cout << "OnMessage " << std::endl;
     // 解决Tcp粘包 和 拆包 while循环就是解决粘包处理多个包
@@ -161,7 +163,8 @@ void KrpcProvider::OnMessage(const muduo::net::TcpConnectionPtr& conn, muduo::ne
         );
         
         // 下发任务给业务层
-        // 在method的函数中 调用done -> run() 数据被真正发送
+        // 在method的函数中 调用done -> run()
+        // 这里使用了多态 service将向下转型，
         service -> CallMethod(method, nullptr, request, response, done); 
     }
 

@@ -31,7 +31,7 @@ void Krpcchannel::CallMethod(const google::protobuf::MethodDescriptor* method,
         ZkClient zkCli;
         zkCli.Start();      // 完成对zookeeper服务器的连接
         
-        std::string host_data = QueryServiceHost(zkCli, service_name, method_name, m_idx);
+        std::string host_data = QueryServiceHost(&zkCli, service_name, method_name, m_idx);
 
         m_ip = host_data.substr(0, m_idx);
         std::cout << "ip :" << m_ip << std::endl;
@@ -96,7 +96,7 @@ void Krpcchannel::CallMethod(const google::protobuf::MethodDescriptor* method,
 
         // 接受服务端响应 [total_len] + [body]
         uint32_t response_len = 0;
-        if(recv_exact(m_clientfd, (char*) response_len, 4) != 4) {
+        if(recv_exact(m_clientfd, (char*)&response_len, 4) != 4) {
             // 读取失败 关闭连接 
             close(m_clientfd);
             m_clientfd = -1;
@@ -171,7 +171,7 @@ std::string Krpcchannel::QueryServiceHost(ZkClient *zkclient, std::string servic
 }
 
 bool Krpcchannel::newConnect(const char* ip, uint16_t port) {
-    int clientfd = socket(AF_INET, SOCK_DGRAM, 0);
+    int clientfd = socket(AF_INET, SOCK_STREAM, 0);
     if(clientfd == -1) {
         char errtxt[512] = {0};
         std::cout << "socket error" << strerror_r(errno, errtxt, sizeof(errtxt)) << std::endl;  // 打印错误信息

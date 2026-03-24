@@ -14,6 +14,7 @@
 #include<string>
 #include<unordered_map>
 
+// 服务端代码
 class KrpcProvider{
 public:
     //核心作用：服务注册。将本地编写的 RPC 服务对象发布到 RPC 框架中。
