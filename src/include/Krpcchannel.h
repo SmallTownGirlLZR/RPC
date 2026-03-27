@@ -14,6 +14,11 @@ public:
             close(m_clientfd);
         }
     }
+    void CallMethod(const google::protobuf::MethodDescriptor* method,
+                    google::protobuf::RpcController* controller,
+                    const google::protobuf::Message* request,
+                    google::protobuf::Message* response,
+                    google::protobuf::Closure* done) override;
 private:
     int m_clientfd;     // 客户端套接字
     std::string service_name;

@@ -1,0 +1,2 @@
+
+file(GLOB SRC_FILES &{CMAKE_CURRENT})

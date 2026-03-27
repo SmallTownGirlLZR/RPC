@@ -60,7 +60,7 @@ void KrpcProvider::Run(){
     muduo::net::InetAddress address(ip, port);
 
     // 创建TcpServer
-    std::shared_ptr<muduo::net::TcpServer> server = std::make_shared<muduo::net::TcpServer>(&evet_loop, address, "KrpcProvider");
+    std::shared_ptr<muduo::net::TcpServer> server = std::make_shared<muduo::net::TcpServer>(&event_loop, address, "KrpcProvider");
  
     // 绑定回调
     server -> setConnectionCallback(
@@ -189,6 +189,7 @@ void KrpcProvider::OnMessage(const muduo::net::TcpConnectionPtr& conn, muduo::ne
         // 下发任务给业务层
         // 在method的函数中 调用done -> run()
         // 这里使用了多态 service将向下转型，
+        // 起到路由作用 如果调用mehthod 则将done这个闭包传递给mehthod
         service -> CallMethod(method, nullptr, request, response, done); 
     }
 
@@ -215,5 +216,5 @@ void KrpcProvider::SendRpcResponse(const muduo::net::TcpConnectionPtr& conn, goo
 
 KrpcProvider::~KrpcProvider() {
     std::cout << "~KrpcProvider " << std::endl;
-    evet_loop.quit();
+    event_loop.quit();
 }

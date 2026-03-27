@@ -16,7 +16,7 @@ public:
     }
 
     // 重写基类虚函数 用于RPC 
-    void Login(::google::protobuf::RpcController controller,
+    void Login(::google::protobuf::RpcController* controller,    
                 const ::Kuser::LoginRequest* request,
                 ::Kuser::LoginResponse* response,
                 ::google::protobuf::Closure* done){
@@ -24,15 +24,15 @@ public:
         std::string pwd = request -> pwd();
 
         // 调用本地业务 
-        bool login_result = Login(name, response);
+        bool login_result = Login(name, pwd);
 
         // 写入response
         Kuser::ResultCode* code = response -> mutable_result();
         code -> set_errcode(0);
         code -> set_errmsg("");
         response -> set_success(login_result);
-
         
+        done -> Run();      // 服务端通过CallMethod 传递了闭包
     }
 };
 
