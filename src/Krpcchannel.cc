@@ -14,6 +14,10 @@
 
 std::mutex g_data_mutex;
 
+Krpcchannel::Krpcchannel(bool newConnect){
+
+}
+
 // 核心方法 CallMethod 负责将客户端的请求序列化并发送至服务端，并接受服务端响应
 void Krpcchannel::CallMethod(const google::protobuf::MethodDescriptor* method,
                              ::google::protobuf::RpcController* controller,
