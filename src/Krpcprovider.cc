@@ -200,7 +200,6 @@ void KrpcProvider::OnMessage(const muduo::net::TcpConnectionPtr& conn, muduo::ne
 
 }
 // 发送响应给客户端
-// 响应没有Header 吗 ？？？
 void KrpcProvider::SendRpcResponse(const muduo::net::TcpConnectionPtr& conn, google::protobuf::Message* response){
     std::string response_str;
     if(response -> SerializeToString(&response_str)){   // 序列化

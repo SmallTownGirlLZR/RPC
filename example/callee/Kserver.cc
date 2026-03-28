@@ -16,6 +16,7 @@ public:
     }
 
     // 重写基类虚函数 用于RPC 
+    // service -> CallMethod(method, nullptr, request, response, done); 
     void Login(::google::protobuf::RpcController* controller,    
                 const ::Kuser::LoginRequest* request,
                 ::Kuser::LoginResponse* response,

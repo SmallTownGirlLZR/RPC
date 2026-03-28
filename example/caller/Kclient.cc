@@ -19,7 +19,7 @@ void send_request(int thread_id, std::atomic<int>& success_count, std::atomic<in
     Krpccontroller controller;
 
     for(int i = 0; i < requests_per_thread; i++) {
-        stub.Login(&controller, &request, &response, nullptr);
+        stub.Login(&controller, &request, &response, nullptr); // 底层调用 Krpcchannel::CallMethod
 
         if(controller.Failed()){    // 调用失败
             std::cout << controller.ErrorText() << std::endl;

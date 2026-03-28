@@ -14,22 +14,33 @@
 
 std::mutex g_data_mutex;
 
-Krpcchannel::Krpcchannel(bool newConnect){
+Krpcchannel::Krpcchannel(bool connectNow)
+    :m_clientfd(-1),
+     m_idx(0){
+    if (!connectNow) {  // 如果不需要立即连接
+        return;
+    }
 
+    // 尝试连接服务器，最多重试3次
+    auto rt = newConnect(m_ip.c_str(), m_port);
+    int count = 3;  // 重试次数
+    while (!rt && count--) {
+        rt = newConnect(m_ip.c_str(), m_port);
+    }
 }
 
-// 核心方法 CallMethod 负责将客户端的请求序列化并发送至服务端，并接受服务端响应
+// 核心方法 CallMethod 负责将客户端的请求序列化并发送至服务端，并接受服务端响应对服务器响应进行反序列化
 void Krpcchannel::CallMethod(const google::protobuf::MethodDescriptor* method,
                              ::google::protobuf::RpcController* controller,
-                             const ::google::protobuf::Message* request,
-                             ::google::protobuf::Message* response,
+                             const ::google::protobuf::Message* request,        // 输入型参数
+                             ::google::protobuf::Message* response,             // 输出型参数
                              ::google::protobuf::Closure* done) {
     if(m_clientfd == -1) {
+        // 1. 在zookeeper中查询目标服务器的 IP : Port 
         const google::protobuf::ServiceDescriptor* sd = method -> service();
         service_name = sd -> name();
         method_name = method -> name();
 
-        // 查询ZooKeeper
         ZkClient zkCli;
         zkCli.Start();      // 完成对zookeeper服务器的连接
         
@@ -41,7 +52,7 @@ void Krpcchannel::CallMethod(const google::protobuf::MethodDescriptor* method,
         std::cout << "port :" << m_port << std::endl;
 
 
-        // 尝试连接服务器
+        // 2. 尝试连接服务器
         bool rt = newConnect(m_ip.c_str(), m_port);
         if(!rt) {
             LOG(ERROR) << "Connect server error ";
@@ -50,25 +61,27 @@ void Krpcchannel::CallMethod(const google::protobuf::MethodDescriptor* method,
             LOG(INFO) << "Connect server success ";
         }
 
-        // request 序列化 (请求参数)
+        // 3. request 序列化 (请求参数)
         std::string args_str;
         if(!request -> SerializeToString(&args_str)) {
             controller -> SetFailed("SerializeToString request fail");
             return;
         }
         
-        // 依照协议构造报文
+        // 4. 依照协议构造报文
         // 构造协议头部
         Krpc::RpcHeader KrpcHeader;
         KrpcHeader.set_service_name(service_name);
         KrpcHeader.set_method_name(method_name);
-        KrpcHeader.set_args_size(args_str.size());       // 参数的二进制大小
+        KrpcHeader.set_args_size(args_str.size());       // 参数的二进制大小 即 body 大小  
         
+        // 报头序列化
         std::string rpc_header_str;
         if(!KrpcHeader.SerializeToString(&rpc_header_str)){
             controller -> SetFailed("SerializeToString header error");
             return;
         }
+        
 
         uint32_t header_size = rpc_header_str.size();
         uint32_t total_len = 4 + header_size + args_str.size();
@@ -84,7 +97,7 @@ void Krpcchannel::CallMethod(const google::protobuf::MethodDescriptor* method,
         send_rpc_str.append((char*)&net_total_len, 4);
         send_rpc_str.append((char*)&net_header_len, 4);
         send_rpc_str.append(rpc_header_str);
-        send_rpc_str.append(args_str);
+        send_rpc_str.append(args_str);     // 即request 
 
         // 发送报文
         if(send(m_clientfd, send_rpc_str.c_str(), send_rpc_str.size(), 0) == -1) {
