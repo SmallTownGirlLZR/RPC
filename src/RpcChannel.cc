@@ -1,6 +1,6 @@
-#include "Krpcheader.pb.h"
-#include "include/Krpcchannel.h"
-#include "include/zookeeperutil.h"
+#include "RpcHeader.pb.h"
+#include "include/RpcChannel.h"
+#include "include/ZookeeperUtil.h"
 #include <cerrno>
 #include <cstdint>
 #include <errno.h>

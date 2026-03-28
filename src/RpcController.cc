@@ -1,4 +1,4 @@
-#include "include/krpccontroller.h" 
+#include "include/RpcController.h" 
 
 Krpccontroller::Krpccontroller(){
     m_failed = false;

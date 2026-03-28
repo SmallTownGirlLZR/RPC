@@ -1,4 +1,4 @@
-#include "include/Krpcconfig.h"
+#include "include/RpcConfig.h"
 #include <cstdlib>
 #include <memory>
 #include <cstdio>

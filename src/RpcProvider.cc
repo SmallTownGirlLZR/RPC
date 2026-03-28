@@ -1,7 +1,7 @@
-#include "include/Krpcapplication.h"
-//#include "Krpcheader.pb.h"
-#include "Krpcheader.pb.h"
-#include "include/Krpcprovider.h"
+#include "include/RpcApplication.h"
+//#include "RpcHeader.pb.h"
+#include "RpcHeader.pb.h"
+#include "include/RpcProvider.h"
 #include <cstdint>
 #include <cstring>
 #include <google/protobuf/descriptor.h>
@@ -16,7 +16,7 @@
 #include <muduo/net/TcpServer.h>
 #include <string>
 #include <sys/types.h>
-#include "include/KrpcLogger.h"
+#include "include/RpcLogger.h"
 
 /* 
  *注册服务

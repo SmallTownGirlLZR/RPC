@@ -1,6 +1,5 @@
-#include "include/Krpcapplication.h"
-#include "include/Krpcconfig.h"
-#include <cinttypes>
+#include "include/RpcApplication.h"
+#include "include/RpcConfig.h"
 #include <cstdlib>
 #include <mutex>
 #include <unistd.h>

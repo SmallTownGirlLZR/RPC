@@ -3,8 +3,8 @@
 #include <iostream>
 #include <string>
 #include "../user.pb.h"
-#include "../../src/include/Krpcapplication.h"
-#include "../../src/include/Krpcprovider.h"
+#include "../../src/include/RpcApplication.h"
+#include "../../src/include/RpcProvider.h"
 
 class UserService : public Kuser::UserServiceRpc {  // 继承自 protobuf 生成的类
 public:

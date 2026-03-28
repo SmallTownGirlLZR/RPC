@@ -1,9 +1,9 @@
 #define THREADED 1
-#include "include/zookeeperutil.h"
-#include "include/Krpcapplication.h"
+#include "include/ZookeeperUtil.h"
+#include "include/RpcApplication.h"
 #include <cstdlib>
 #include <mutex>
-#include "include/KrpcLogger.h"
+#include "include/RpcLogger.h"
 #include <condition_variable>
 #include <zookeeper/zookeeper.h>
 std::mutex cv_mutex;        // 全局锁，用于保护共享变量的线程安全

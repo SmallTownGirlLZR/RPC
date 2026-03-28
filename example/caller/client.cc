@@ -2,10 +2,10 @@
 #include <iostream>
 #include "../user.pb.h"
 #include <thread>
-#include "../../src/include/Krpcapplication.h"
-#include "../../src/include/Krpcchannel.h"
+#include "../../src/include/RpcApplication.h"
+#include "../../src/include/RpcChannel.h"
 
-#include "../../src/include/KrpcLogger.h"
+#include "../../src/include/RpcLogger.h"
 // 发送RPC 请求的函数
 void send_request(int thread_id, std::atomic<int>& success_count, std::atomic<int>& fail_count, int requests_per_thread) {
     Kuser::UserServiceRpc_Stub stub(new Krpcchannel(false));

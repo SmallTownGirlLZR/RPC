@@ -1,8 +1,8 @@
 #ifndef __APP_H_ 
 #define __APP_H_ 
-#include "Krpcconfig.h"
-#include "Krpcchannel.h"
-#include "krpccontroller.h"  
+#include "RpcConfig.h"
+#include "RpcChannel.h"
+#include "RpcController.h"  
 #include <mutex>
 
 // 负责初始化工作

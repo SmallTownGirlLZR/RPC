@@ -4,7 +4,7 @@
 #include <google/protobuf/service.h>
 #include <queue>
 #include <sys/types.h>
-#include "zookeeperutil.h"
+#include "ZookeeperUtil.h"
 
 class Krpcchannel : public google::protobuf::RpcChannel {
 public:
