@@ -23,7 +23,7 @@ void Krpcconfig::LoadConfigFile(const char* config_file){
         std::string read_buf(buf);
         Trim(read_buf);  // 去除字符串前后的空格
         // 遇到注释和空行直接跳过
-        if(read_buf[0] = '#' || read_buf.empty())
+        if(read_buf[0] == '#' || read_buf.empty())
             continue;
 
         int index = read_buf.find("=");

@@ -16,6 +16,7 @@
 #include <muduo/net/TcpServer.h>
 #include <string>
 #include <sys/types.h>
+#include "include/KrpcLogger.h"
 
 /* 
  *注册服务
@@ -52,9 +53,13 @@ void KrpcProvider::OnConnection(const muduo::net::TcpConnectionPtr& conn){
 
 // 初始化TcpServer 并绑定回调方法
 void KrpcProvider::Run(){
-    // 获取 IP & Port 配置
+    // 获取 IP & Port 配置          
     std::string ip = KrpcApplication::GetInstance().GetConfig().Load("rpcserverip");
     int port = atoi(KrpcApplication::GetInstance().GetConfig().Load("rpcserverport").c_str());
+    
+    LOG(INFO) << "ip : %s" << ip;
+    LOG(INFO) << "port : %d " << port;
+
 
     // 创建地址对象
     muduo::net::InetAddress address(ip, port);
