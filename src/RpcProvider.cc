@@ -212,6 +212,8 @@ void KrpcProvider::SendRpcResponse(const muduo::net::TcpConnectionPtr& conn, goo
 
         std::memcpy(&send_buf[0], &net_len, 4);
         std::memcpy(&send_buf[4], response_str.data(), len);
+
+        conn -> send(send_buf);
     }else{
         std::cout << "service response err" << std::endl;
     }
